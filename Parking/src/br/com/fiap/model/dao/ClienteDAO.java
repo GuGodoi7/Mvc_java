@@ -5,13 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.fiap.model.bean.Carro;
 
-public class CarroDAO implements IDAO {
+import br.com.fiap.model.bean.Cliente;
+
+public class ClienteDAO {
 	private Connection con;
-	private Carro carro; 
+	private Cliente cliente;
 
-	public CarroDAO(Connection con) {
+	public ClienteDAO(Connection con) {
+		super();
 		this.con = con;
 	}
 
@@ -22,15 +24,15 @@ public class CarroDAO implements IDAO {
 	public void setCon(Connection con) {
 		this.con = con;
 	}
-
+	
 	public String inserir(Object obj) {
-		carro = (Carro)obj;
+		cliente = (Cliente)obj;
 		String sql = "insert into carro(placa,cor,descricao)values(?,?,?)";
 		try {
 			PreparedStatement ps = getCon().prepareStatement(sql);
-			ps.setString(1, carro.getPlaca());
-			ps.setString(2, carro.getCor());
-			ps.setString(3, carro.getDescricao());
+			ps.setInt(1, cliente.getIdCliente());
+			ps.setString(2, cliente.getNomeCliente());
+			ps.setString(3, cliente.getPlaca());
 			if (ps.executeUpdate() > 0) {
 				return "Inserido com sucesso.";
 			} else {
@@ -41,15 +43,15 @@ public class CarroDAO implements IDAO {
 		}
 	}	
 	public String alterar(Object obj) {
-		carro = (Carro)obj;
+		cliente = (Cliente)obj;
 		String sql = "update carro ";
 		sql += "set cor = ?, descricao = ?";
 		sql += "where placa = ?";
 		try {
 			PreparedStatement ps = getCon().prepareStatement(sql);
-			ps.setString(3, carro.getPlaca());
-			ps.setString(1, carro.getCor());
-			ps.setString(2, carro.getDescricao());
+			ps.setInt(1, cliente.getIdCliente());
+			ps.setString(2, cliente.getNomeCliente());
+			ps.setString(3, cliente.getPlaca());
 			if (ps.executeUpdate() > 0) {
 				return "Atualizado com sucesso.";
 			} else {
@@ -60,12 +62,12 @@ public class CarroDAO implements IDAO {
 		}
 	}
 	public String excluir(Object obj) {
-		carro = (Carro)obj;
+		cliente = (Cliente)obj;
 		String sql = "delete from carro where placa = ?";
 		
 		try {
 			PreparedStatement ps = getCon().prepareStatement(sql);
-			ps.setString(1, carro.getPlaca());
+			ps.setString(1, cliente.getPlaca());
 			if (ps.executeUpdate() > 0) {
 				return "Excluido com sucesso.";
 			} else {
@@ -96,7 +98,8 @@ public class CarroDAO implements IDAO {
 			return null;
 		}
 	}
-
+	
+	
 	
 
 }
